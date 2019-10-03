@@ -1,0 +1,31 @@
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: reactdocker-deployment
+spec:
+  selector:
+    matchLabels:
+      app: reactdocker
+  replicas: 4
+  template:
+    metadata:
+      labels:
+        app: reactdocker
+    spec:
+      containers:
+      - name: reactdocker
+        image: raj10/raj10_tag
+        ports:
+        - containerPort: 8080
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 8080
+          initialDelaySeconds: 120
+          periodSeconds: 30
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 8080
+          initialDelaySeconds: 120
+          periodSeconds: 3
